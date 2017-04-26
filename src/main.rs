@@ -18,7 +18,7 @@ use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::process;
 
-static VERSION: &'static str = "0.1.0";
+static VERSION: &'static str = "1.0.0";
 static USAGE: &'static str = "
 flip -- reverse characters in each line
 
