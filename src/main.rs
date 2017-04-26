@@ -10,7 +10,7 @@ extern crate unicode_segmentation;
 extern crate docopt;
 
 use unicode_segmentation::UnicodeSegmentation;
-use docopt::Docopt;
+use docopt::{Docopt, Error};
 
 use std::io::{stdin, stderr};
 use std::io::{self, Read, Write};
@@ -18,7 +18,15 @@ use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::process;
 
-static VERSION: &'static str = "1.0.0";
+static VERSION: &'static str = "1.0.1";
+macro_rules! VERSION_INFO {
+  () => { "\
+flip {}
+copyright (c) 2017 William Yao <williamyaoh@gmail.com>
+license BSD 3-Clause
+no warranty, whether implied or not
+" }
+}
 static USAGE: &'static str = "
 flip -- reverse characters in each line
 
@@ -81,8 +89,13 @@ fn main() {
     .version(Some(VERSION.to_string()))
     .help(true);
 
-  let cli_args: CLIArgs = cli_parser.decode().map_err(|err| err.exit())
-    .unwrap();
+  let cli_args: CLIArgs = cli_parser.decode().map_err(|err| match err { 
+    Error::Version(version) => {
+      print!(VERSION_INFO!(), version);
+      process::exit(0);
+    },
+    other => other.exit()
+  }).unwrap();
 
   if let Err(msg) = go(cli_args.arg_files) {
     writeln!(stderr(), "flip: {}", msg)
