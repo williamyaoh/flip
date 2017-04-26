@@ -18,7 +18,7 @@ use std::io::{BufRead, BufReader};
 use std::fs::File;
 use std::process;
 
-static VERSION: &'static str = "1.0.1";
+static VERSION: &'static str = "1.0.2";
 macro_rules! VERSION_INFO {
   () => { "\
 flip {}
