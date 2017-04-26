@@ -31,7 +31,7 @@ static USAGE: &'static str = "
 flip -- reverse characters in each line
 
 Usage:
-    flip <files>...
+    flip [<files>...]
     flip (--help | --version)
 
 Options:
@@ -109,7 +109,7 @@ fn main() {
 /// We assume that the given iterator is finite. We can't exactly check
 /// for an error *somewhere* in an infinite list :V
 /// Returns the first error found, if there is one.
-fn attempt_map<T, E, F, I, M>(elements: I, mapper: F) -> Result<Vec<T>, E> where
+fn attempt_map<T, E, F, I, M>(mapper: F, elements: I) -> Result<Vec<T>, E> where
   F: FnMut(M) -> Result<T, E>,
   I: IntoIterator<Item=M>
 {
@@ -126,16 +126,24 @@ fn attempt_map<T, E, F, I, M>(elements: I, mapper: F) -> Result<Vec<T>, E> where
   Ok(results)
 }
 
+fn open_file_or_stdin(path: String) -> Result<Box<Read>, String> {
+  if &path == "-" {
+    Ok(Box::new(io::stdin()))
+  } else {
+    let file = File::open(&path).map_err(|_err| {
+      format!("failed to open file: {}", path)
+    })?;
+    Ok(Box::new(file))
+  }
+}
+
 fn go(files: Vec<String>) -> Result<(), String> {
   let input: Box<Read>;
 
   if files.is_empty() {
     input = Box::new(stdin());
   } else {
-    let files = attempt_map(files, |path| File::open(path)).map_err(|_err| {
-      "one or more files could not be opened (are you sure they exist?)"
-    })?;
-
+    let files = attempt_map(&open_file_or_stdin, files)?;
     input = Box::new(Multichain::new(files));
   }
 
@@ -169,7 +177,7 @@ mod flip_tests {
   #[test]
   fn test_attempt_try_success() {
     let success = [true; 32];
-    let results = super::attempt_map(&success, &make_result);
+    let results = super::attempt_map(&make_result, &success);
 
     let unpacked = results.expect("attempt_map() returned an Err when there were only Ok");
 
@@ -179,7 +187,7 @@ mod flip_tests {
   #[test]
   fn test_attempt_try_failure() {
     let attempts = [true, true, false, true, true];
-    let results = super::attempt_map(&attempts, &make_result);
+    let results = super::attempt_map(&make_result, &attempts);
 
     assert!(results.is_err());
   }
