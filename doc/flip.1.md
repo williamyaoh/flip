@@ -21,13 +21,16 @@ the 'character' "é" actually consists of two *different* Unicode code points:
 what you want. The "e" and its diacritic should intuitively stay together when
 the text they're part of gets reversed.
 
-# COMPATIBILITY
+# ENCODINGS
 
-Currently, **flip** only supports UTF-8 as a character encoding for its input
-text. In the future, support for more encodings may be added. 
+**flip** only takes UTF-8 as input/output. If you need to work with other
+character encodings, use **iconv** as a filter.
 
 # SEE ALSO
 
 **rev**(1) 
 Same purpose, but not Unicode-aware, and will split apart things that
 shouldn't be split apart.
+
+**iconv**(1)
+Utility for converting to/from various character encodings.

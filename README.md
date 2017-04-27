@@ -24,5 +24,5 @@ éfaC
 
 Uh oh. `rev` split the diacritic apart, due to it spanning multiple bytes!
 
-Right now `flip` only supports UTF-8 as a character encoding for its input.
-In the future, it may support other character encodings.
+`flip` takes UTF-8 as input and spits back UTF-8 as output.
+If you need to convert to/from a different character encoding, use `iconv`.
