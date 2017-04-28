@@ -19,8 +19,8 @@ command line before reversing the contents of each line.
 graphemes.
 For example, the \[aq]character\[aq] "é" actually consists of two
 \f[I]different\f[] Unicode code points: "e" and " ́".
-Naively reversing this bytewise would result in " ́e": not likely what
-you want.
+Naively reversing this on each Unicode code point would result in " ́e":
+not likely what you want.
 The "e" and its diacritic should intuitively stay together when the text
 they\[aq]re part of gets reversed.
 .SH ENCODINGS
@@ -30,7 +30,7 @@ If you need to work with other character encodings, use \f[B]iconv\f[]
 as a filter.
 .SH SEE ALSO
 .PP
-\f[B]rev\f[](1) Same purpose, but not Unicode\-aware, and will split
+\f[B]rev\f[](1) Same purpose, but not grapheme\-aware, and will split
 apart things that shouldn\[aq]t be split apart.
 .PP
 \f[B]iconv\f[](1) Utility for converting to/from various character

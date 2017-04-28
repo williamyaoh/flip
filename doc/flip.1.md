@@ -17,9 +17,9 @@ line.
 
 **flip** is Unicode-aware and makes sure not to break apart graphemes. For example,
 the 'character' "é" actually consists of two *different* Unicode code points:
-"e" and " ́". Naively reversing this bytewise would result in " ́e": not likely
-what you want. The "e" and its diacritic should intuitively stay together when
-the text they're part of gets reversed.
+"e" and " ́". Naively reversing this on each Unicode code point would result in " ́e":
+not likely what you want. The "e" and its diacritic should intuitively stay together
+when the text they're part of gets reversed.
 
 # ENCODINGS
 
@@ -29,7 +29,7 @@ character encodings, use **iconv** as a filter.
 # SEE ALSO
 
 **rev**(1) 
-Same purpose, but not Unicode-aware, and will split apart things that
+Same purpose, but not grapheme-aware, and will split apart things that
 shouldn't be split apart.
 
 **iconv**(1)
