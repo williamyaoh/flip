@@ -25,7 +25,7 @@ Uh oh. `rev` split the diacritic apart, due to it spanning multiple Unicode
 code points! There are a whole bunch of things that we intuitively might
 think of as a 'character', but which actually consist of multiple code points;
 these are Unicode graphemes. As another example, take this Japanese flag emoji:
-🇯🇵. This is actually *two* code points: 🇯+ 🇵. Try copy and pasting them, then
+🇯🇵. This is actually *two* code points: 🇯+🇵. Try copy and pasting them, then
 deleting the plus sign between them.
 
 `flip` tries to be smart about these and keep them together.
