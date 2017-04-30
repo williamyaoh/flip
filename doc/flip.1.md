@@ -6,7 +6,7 @@ flip - Unicode-aware line-reversal utility
 
 flip [<file> ...]
 flip (--help | -h)
-flip (--version | -v)
+flip --version
 
 # DESCRIPTION
 
